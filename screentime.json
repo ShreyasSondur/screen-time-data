@@ -1,1 +1,25 @@
-{"errors": {"timeperiods": "'timeperiods' is a required property", "query": "'\\n        events = aw.query(\\n            start=aw.beginning_of_day(),\\n            end=aw.now(),\\n            query=\"type=app or type=afk\"\\n        );\\n        total_time = sum(events.duration) / 3600;  # in hours\\n        top_apps = aw.group_by_category(events, \"app\")[:5];  # top 5 apps\\n        { \"total_time\": total_time, \"top_apps\": top_apps }\\n    ' is not of type 'array'"}, "message": "Input payload validation failed"}
+{
+  "total_time": 6.09,
+  "top_apps": [
+    {
+      "app": "VALORANT-Win64-Shipping.exe",
+      "duration": 15665.493000000002
+    },
+    {
+      "app": "chrome.exe",
+      "duration": 12862.699999999997
+    },
+    {
+      "app": "explorer.exe",
+      "duration": 497.86300000000006
+    },
+    {
+      "app": "NVIDIA Overlay.exe",
+      "duration": 453.389
+    },
+    {
+      "app": "Code.exe",
+      "duration": 334.67199999999985
+    }
+  ]
+}
