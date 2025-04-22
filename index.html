@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Screen Time Tracker</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body { font-family: Arial; max-width: 800px; margin: 20px auto; }
+        #top-apps img { margin-right: 10px; vertical-align: middle; }
+    </style>
+</head>
+<body>
+    <h1>📊 My Screen Time</h1>
+    <p>Total today: <span id="total-time">0</span> hours</p>
+    <h2>Top Apps</h2>
+    <ul id="top-apps"></ul>
+    <canvas id="chart"></canvas>
+
+    <script>
+        // Fetch data from GitHub
+        fetch('https://raw.githubusercontent.com/ShreyasSondur/screen-time-data/main/screentime.json')
+            .then(res => res.json())
+            .then(data => {
+                // Update total time
+                document.getElementById("total-time").textContent = data.total_time.toFixed(1);
+
+                // Update top apps with icons
+                const topAppsList = document.getElementById("top-apps");
+                data.top_apps.forEach(app => {
+                    const appName = app.app;
+                    const appDuration = (app.duration / 3600).toFixed(1);
+                    const favicon = `https://www.google.com/s2/favicons?domain=${appName}.com`;
+                    topAppsList.innerHTML += `
+                        <li>
+                            <img src="${favicon}" width="16" height="16">
+                            ${appName}: ${appDuration} hrs
+                        </li>
+                    `;
+                });
+
+                // Show chart
+                new Chart(document.getElementById("chart"), {
+                    type: 'bar',
+                    data: {
+                        labels: data.top_apps.map(app => app.app),
+                        datasets: [{
+                            label: 'Hours',
+                            data: data.top_apps.map(app => (app.duration / 3600).toFixed(1)),
+                            backgroundColor: '#3a86ff'
+                        }]
+                    }
+                });
+            })
+            .catch(err => console.error("Failed to load data:", err));
+    </script>
+</body>
+</html>
